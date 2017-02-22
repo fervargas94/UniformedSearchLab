@@ -49,12 +49,10 @@ def equals(actual, goal):
 			if actual[index] == goal[index]:
 				count += 1
 	if count == len(goal) - goal.count(['X']):
-		return True
+		return True, actual
 	return False
 
 def getPath(nodes, goal_array):
-	print(nodes)
-	print(goal_array)
 	for nodex in nodes:
 		if nodex.getValue() == goal_array:
 			return nodex
@@ -74,7 +72,7 @@ def bfs(lenght, current, goal):
 		fifo.append(current_array)
 		while len(fifo) > 0:
 			if equals(fifo[0], goal_array):
-				recursive = goal_array
+				recursive = (equals(fifo[0], goal_array))[1]
 				while recursive != current_array:
 					value = getPath(nodes, recursive)
 					path.append(value.getPath())
@@ -91,6 +89,6 @@ def bfs(lenght, current, goal):
 	else:
 		print("No solution found")
 
-bfs(2, "(A); (B); (C)", "(); (B, C); (A)")
+bfs(2, "(A); (B); ()", "(A, B); X; X")
 
 
