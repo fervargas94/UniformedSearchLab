@@ -44,7 +44,7 @@ def move(current_array, cost, possible_movements, goal_array):
 		if len(current[action[0]]) >= 1:
 			current[action[1]].append((current[action[0]])[-1])
 			(current[action[0]]).pop()
-		heuristicValue = invalidHeuristic(current, goal_array)
+		heuristicValue = heuristic(current, goal_array)
 		array.append(node((cost + heuristicValue + (1 + abs(action[0] - action[1]))), current, current_array, [action[0], action[1]], False))
 	return list(array)
 
@@ -110,7 +110,5 @@ def astar(lenght, current, goal):
 	else:
 		print("No solution found")
 
-
-astar(3, "(A); (B); (C); ()", "(); (A); (B); (C)")
 
 
