@@ -89,6 +89,6 @@ def bfs(lenght, current, goal):
 	else:
 		print("No solution found")
 
-bfs(2, "(A); (B); ()", "(A, B); X; X")
+bfs(3, "(A); (B); (C); ()", "(); (A); (B); (C)")
 
 

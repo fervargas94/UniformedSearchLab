@@ -10,7 +10,7 @@ class node:
       self.visited = visited
 
    def __repr__(self):
-   	return "%s %s" % (self.cost, self.value)
+   	return "%s %s %s %s" % (self.cost, self.value, self.parent, self.path)
    
    def getPath(self):
    	return self.path
@@ -44,7 +44,7 @@ def move(current_array, cost, possible_movements, goal_array):
 		if len(current[action[0]]) >= 1:
 			current[action[1]].append((current[action[0]])[-1])
 			(current[action[0]]).pop()
-		heuristicValue = heuristic(current, goal_array)
+		heuristicValue = invalidHeuristic(current, goal_array)
 		array.append(node((cost + heuristicValue + (1 + abs(action[0] - action[1]))), current, current_array, [action[0], action[1]], False))
 	return list(array)
 
@@ -62,16 +62,18 @@ def heuristic(actual, goal):
 	count = 0
 	for index, item in enumerate(goal):
 		if item != ['X']:
-			if actual[index] != goal[index]:
-				count += 1
+			for char in item:
+				if char not in goal[index]:
+					count += 1
 	return count
 
 def invalidHeuristic(actual, goal):
 	count = 0
 	for index, item in enumerate(goal):
 		if item != ['X']:
-			if actual[index] == goal[index]:
-				count += 1
+			for char in item:
+				if char in goal[index]:
+					count += 1
 	return count
 
 def getFinalPath(visited, goal_array):
@@ -109,4 +111,6 @@ def astar(lenght, current, goal):
 		print("No solution found")
 
 
-astar(2, "(A); (B); (C)", "(A, C); (B); ()")
+astar(3, "(A); (B); (C); ()", "(); (A); (B); (C)")
+
+
