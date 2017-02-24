@@ -1,1 +1,10 @@
-python bfs.py
+
+import heuristic import astar
+
+if __name__ == "__main__":
+    height = int(input())
+    start = raw_input()
+    goal = raw_input()
+
+    
+    astar(height, start, goal)
