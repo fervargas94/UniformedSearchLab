@@ -110,5 +110,12 @@ def astar(lenght, current, goal):
 	else:
 		print("No solution found")
 
+if __name__ == "__main__":
+    height = int(input())
+    start = raw_input()
+	goal = raw_input()
+	
+	astar(height, start, goal) 
+
 
 
