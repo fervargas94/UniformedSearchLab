@@ -100,7 +100,7 @@ def astar(lenght, current, goal):
                     value = getFinalPath(visited, recursive)
                     path.append(value.getPath())
                     recursive = value.getParent()
-                print(path[::-1])
+                print((str(path[::-1]))[1:-1]).replace('[', '(').replace(']', ')')
                 break;
             else:
                 if priority[0] not in visited:
