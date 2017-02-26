@@ -37,15 +37,18 @@ def toArray(string):
     return array
 
 
-def move(current_array, cost, possible_movements, goal_array):
+def move(current_node, visited, possible_movements, goal_array):
     array = []
+    current_array = current_node.getValue()
+    cost = current_node.getCost()
     for action in possible_movements:
         current = copy.deepcopy(current_array)
         if len(current[action[0]]) >= 1:
             current[action[1]].append((current[action[0]])[-1])
             (current[action[0]]).pop()
-        heuristicValue = heuristic(current, goal_array)
-        array.append(node((cost + heuristicValue + (1 + abs(action[0] - action[1]))), current, current_array, [action[0], action[1]], False))
+        if current not in visited:
+            heuristicValue = heuristic(current, goal_array)
+            array.append(node((cost + heuristicValue + (1 + abs(action[0] - action[1]))), current, current_node, [action[0], action[1]], False))
     return list(array)
 
 def equals(actual, goal):
@@ -93,20 +96,20 @@ def astar(lenght, current, goal):
         while len(priority) > 0:
             priority.sort(key=lambda x: x.cost)
             if equals(priority[0].getValue(), goal_array):
-                print(priority[0].getCost())
                 recursive = priority[0].getParent();
                 path.append(priority[0].getPath())
-                while recursive != current_array:
-                    value = getFinalPath(visited, recursive)
-                    path.append(value.getPath())
-                    recursive = value.getParent()
-                print((str(path[::-1]))[1:-1]).replace('[', '(').replace(']', ')')
+                while recursive != []:
+                    pathCost = recursive.getPath()
+                    path.append(pathCost)
+                    recursive = recursive.getParent()
+                print(priority[0].getCost())
+                print((str(path[::-1]))[5:-1]).replace('[', '(').replace(']', ')')
                 break;
             else:
-                if priority[0] not in visited:
-                    priority.extend(move(priority[0].getValue(), priority[0].getCost() ,possible_movements, goal_array))
-                    visited.append(priority[0])
-                    del priority[0]
+                #if priority[0].getValue() not in visited:
+                priority.extend(move(priority[0], visited, possible_movements, goal_array))
+                visited.append(priority[0].getValue())
+                del priority[0]
     else:
         print("No solution found")
 
