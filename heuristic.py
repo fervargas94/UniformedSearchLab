@@ -61,13 +61,21 @@ def equals(actual, goal):
         return True, actual
     return False
 
-def heuristic(actual, goal):
+'''def heuristic(actual, goal):
     count = 0
     for index, item in enumerate(goal):
         if item != ['X']:
             for char in item:
                 if char not in goal[index]:
                     count += 1
+    return count'''
+
+def heuristic(actual, goal):
+    count = 0
+    for index, item in enumerate(goal):
+        if item != ['X']:
+            if actual[index] != goal[index]:
+                count += 1
     return count
 
 def invalidHeuristic(actual, goal):
