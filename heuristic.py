@@ -2,8 +2,9 @@ import itertools
 import copy
 
 class node:
-    def __init__(self, cost, value, parent, path, visited):
+    def __init__(self, cost, heuristic, value, parent, path, visited):
         self.cost = cost
+        self.heuristic = heuristic
         self.value = value
         self.parent = parent
         self.path = path
@@ -37,7 +38,7 @@ def toArray(string):
     return array
 
 
-def move(current_node, visited, possible_movements, goal_array):
+def move(current_node, visited, possible_movements, goal_array, lenght):
     array = []
     current_array = current_node.getValue()
     cost = current_node.getCost()
@@ -48,8 +49,7 @@ def move(current_node, visited, possible_movements, goal_array):
             (current[action[0]]).pop()
         if current not in visited:
             heuristicValue = heuristic(current, goal_array)
-            #print(current, heuristicValue)
-            array.append(node(cost + (heuristicValue + (1 + abs(action[0] - action[1]))), current, current_node, [action[0], action[1]], False))
+            array.append(node(cost + (heuristicValue + (1 + abs(action[0] - action[1]))), heuristicValue, current, current_node, [action[0], action[1]], False))
     return list(array)
 
 def equals(actual, goal):
@@ -119,7 +119,7 @@ def astar(lenght, current, goal):
     cost = 0
     current_array = toArray(current)
     goal_array = toArray(goal)
-    priority = [node(0, current_array, [], [], True)]
+    priority = [node(0, 0, current_array, [], [], True)]
     path = []
     visited = []
     possible_movements = list(itertools.permutations(range(0, len(current_array)), 2))
@@ -138,7 +138,7 @@ def astar(lenght, current, goal):
                 break;
             else:
                 #if priority[0].getValue() not in visited:
-                priority.extend(move(priority[0], visited, possible_movements, goal_array))
+                priority.extend(move(priority[0], visited, possible_movements, goal_array, lenght))
                 visited.append(priority[0].getValue())
                 del priority[0]
     else:
@@ -150,4 +150,4 @@ if __name__ == "__main__":
     start = raw_input()
     goal = raw_input()
 
-    astar(height, start, goal) 
+    astar(height, start, goal)
