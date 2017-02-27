@@ -48,7 +48,8 @@ def move(current_node, visited, possible_movements, goal_array):
             (current[action[0]]).pop()
         if current not in visited:
             heuristicValue = heuristic(current, goal_array)
-            array.append(node((cost + heuristicValue + (1 + abs(action[0] - action[1]))), current, current_node, [action[0], action[1]], False))
+            #print(current, heuristicValue)
+            array.append(node(cost + (heuristicValue + (1 + abs(action[0] - action[1]))), current, current_node, [action[0], action[1]], False))
     return list(array)
 
 def equals(actual, goal):
@@ -61,22 +62,44 @@ def equals(actual, goal):
         return True, actual
     return False
 
-'''def heuristic(actual, goal):
+def heuristic(actual, goal):
     count = 0
     for index, item in enumerate(goal):
         if item != ['X']:
             for char in item:
                 if char not in goal[index]:
                     count += 1
-    return count'''
-
-def heuristic(actual, goal):
-    count = 0
-    for index, item in enumerate(goal):
-        if item != ['X']:
-            if actual[index] != goal[index]:
-                count += 1
     return count
+
+'''def heuristic(actual, goal):
+    goal_dict = {}
+    actual_dict = {}
+    cost = 0
+    for index, item in enumerate(goal):
+        for level, char in enumerate(item):
+            if char != 'X':
+                goal_dict[char] = [index, level]
+        for level, char in enumerate(actual[index]):
+            actual_dict[char] = [index, level]
+    for item in goal_dict:
+        cost = cost + abs((goal_dict[item])[0] - (actual_dict[item])[0]) + abs((goal_dict[item])[1] - (actual_dict[item])[1])
+    return cost'''
+
+'''def heuristic(actual, goal):
+    distances = {}
+    for index, box in enumerate(goal):
+        if box != '' and box != 'X':
+            for char in box:
+                distances[char] = index
+    for index, box in enumerate(actual):
+        if box != '':
+            for char in box:
+                if char in distances:
+                    distances[char] = abs(index - distances[char]) + 1 #calculate h
+                else:
+                    distances[char] = 0
+    print(distances)
+    return sum(distances.values())'''
 
 def invalidHeuristic(actual, goal):
     count = 0
@@ -128,6 +151,3 @@ if __name__ == "__main__":
     goal = raw_input()
 
     astar(height, start, goal) 
-
-
-
